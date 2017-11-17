@@ -44,7 +44,11 @@ Task("Build")
     .Does(() =>
 {
     MSBuild("./src/TinyPubSub.sln", settings => 
-        settings.SetConfiguration($"{configuration}-CI")
+        settings
+            .WithProperty("Version", version.SemVersion)
+            .WithProperty("AssemblyVersion", version.Version)
+            .WithProperty("FileVersion", version.Version)
+            .SetConfiguration($"{configuration}-CI")
             .SetVerbosity(Verbosity.Minimal));
 });
 
@@ -64,8 +68,22 @@ Task("Pack")
     .Does(() =>
 {
     DotNetCorePack("./src/TinyPubSub/TinyPubSub.csproj", new DotNetCorePackSettings {
-        OutputDirectory = "./.artifacts"
+        Configuration = "Release-CI",
+        OutputDirectory = "./.artifacts",
+        MSBuildSettings = new DotNetCoreMSBuildSettings()
+            .WithProperty("Version", version.SemVersion)
+            .WithProperty("AssemblyVersion", version.Version)
+            .WithProperty("FileVersion", version.Version)
     });
+
+    // DotNetCorePack("./src/TinyPubSub.Forms/TinyPubSub.Forms.csproj", new DotNetCorePackSettings {
+    //     Configuration = "Release-CI",
+    //     OutputDirectory = "./.artifacts",
+    //     MSBuildSettings = new DotNetCoreMSBuildSettings()
+    //         .WithProperty("Version", version.SemVersion)
+    //         .WithProperty("AssemblyVersion", version.Version)
+    //         .WithProperty("FileVersion", version.Version)
+    // });
 });
 
 RunTarget(target);
