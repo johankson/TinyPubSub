@@ -13,6 +13,7 @@ Task("Default").IsDependentOn("Build");
 
 Task("Build").Does(() =>
 {
+    MSBuild("./src/TinyPubSub.sln");
     //DotNetBuild("./src/TinyPubSub.sln");
     //DotNetCoreRestore("./src");
     //DotNetCoreBuild("./src/TinyPubSub.sln");
