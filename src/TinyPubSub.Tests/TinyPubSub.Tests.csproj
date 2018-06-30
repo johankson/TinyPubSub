@@ -15,4 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TinyPubSub\TinyPubSub.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
 </Project>

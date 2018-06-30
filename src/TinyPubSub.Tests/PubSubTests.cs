@@ -19,6 +19,11 @@ namespace TinyPubSub.Tests
 
     public class PubSubTests
     {
+        public PubSubTests()
+        {
+            TinyPubSubLib.TinyPubSub.Clear();
+        }
+
         [Fact]
         public void SubscribeWithArgumentTest()
         {

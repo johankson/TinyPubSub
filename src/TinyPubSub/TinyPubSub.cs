@@ -299,8 +299,7 @@ namespace TinyPubSubLib
 
             if (_channels.TryGetValue(channel, out var current))
             {
-                // EB: ToList removed, since ConcurrentDictionary always returns a copy of the data
-                foreach (var subscription in current.Keys.OfType<Subscription<T>>())
+                foreach (var subscription in current.Keys.OfType<Subscription<T>>().OrderBy(x => x.Id))
                 {
                     try
                     {
@@ -348,7 +347,7 @@ namespace TinyPubSubLib
                 // subscription.
                 if (typeof(T) != typeof(object))
                 {
-                    PublishControlled<object>(channel, instance, onError);
+                    return PublishControlled<object>(channel, instance, onError);
                 }
             }
 

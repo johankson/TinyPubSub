@@ -28,11 +28,20 @@ using System.Collections.Generic;
 
 namespace TinyPubSubLib
 {
+
+
     /// <summary>
     /// Represents one subscription
     /// </summary>
     internal class Subscription<T> : ISubscription
     {
+        /// <summary>
+        /// Internally used to track the order of subscriptions created
+        /// </summary>
+        /// <value>The identifier.</value>
+        /// <remarks>A newer subscription always has a larger number</remarks>
+        internal int Id { get; private set; }
+
         public Action Action { get; set; }
 
         public Action<T> ActionWithArgument { get; set; }
@@ -57,6 +66,7 @@ namespace TinyPubSubLib
 
         internal Subscription()
         {
+            Id = IdFactory.GetNextId();
             Tag = Guid.NewGuid().ToString();
             SubscribeToType = typeof(T);
         }
